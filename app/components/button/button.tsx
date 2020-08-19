@@ -1,37 +1,85 @@
-import * as React from "react"
+import React, { FunctionComponent as Component } from "react"
 import { TouchableOpacity } from "react-native"
-import { Text } from "../text/text"
-import { viewPresets, textPresets } from "./button.presets"
-import { ButtonProps } from "./button.props"
-import { mergeAll, flatten } from "ramda"
+// import {LinearGradient} from 'expo-linear-gradient'
+import LinearGradient from 'react-native-linear-gradient';
+import { buttonStyles as styles } from "./Button.styles"
+import { color } from "../../theme"
 
-/**
- * For your text displaying needs.
- *
- * This component is a HOC over the built-in React Native one.
- */
-export function Button(props: ButtonProps) {
-  // grab the props
+export interface ButtonProps {
+  style?,
+  opacity?,
+  gradient?,
+  color?,
+  startColor?,
+  endColor?,
+  end?,
+  start?,
+  locations?,
+  shadow?,
+  children?,
+  onPress?
+}
+
+export const Button: Component<ButtonProps> = props => {
   const {
-    preset = "primary",
-    tx,
-    text,
-    style: styleOverride,
-    textStyle: textStyleOverride,
+    style,
+    opacity,
+    gradient,
+    color,
+    startColor,
+    endColor,
+    end,
+    start,
+    locations,
+    shadow,
     children,
-    ...rest
   } = props
 
-  const viewStyle = mergeAll(flatten([viewPresets[preset] || viewPresets.primary, styleOverride]))
-  const textStyle = mergeAll(
-    flatten([textPresets[preset] || textPresets.primary, textStyleOverride]),
-  )
+  const buttonStyles = [
+    styles.button,
+    shadow && styles.shadow,
+    color && styles[color], // predefined styles colors for backgroundColor
+    color && !styles[color] && { backgroundColor: color }, // custom backgroundColor
+    style
+  ]
 
-  const content = children || <Text tx={tx} text={text} style={textStyle} />
+  if (gradient) {
+    return (
+      <TouchableOpacity
+        style={buttonStyles}
+        activeOpacity={opacity}
+        {...props}
+      >
+        <LinearGradient
+          start={start}
+          end={end}
+          locations={locations}
+          style={buttonStyles}
+          colors={[startColor, endColor]}
+        >
+          {children}
+        </LinearGradient>
+      </TouchableOpacity>
+    )
+  } else {
+    return (
+      <TouchableOpacity
+        style={buttonStyles}
+        activeOpacity={opacity || 0.8}
+        {...props}
+      >
+        {children}
+      </TouchableOpacity>
+    )
+  }
+}
 
-  return (
-    <TouchableOpacity style={viewStyle} {...rest}>
-      {content}
-    </TouchableOpacity>
-  )
+Button.defaultProps = {
+  startColor: color.primary,
+  endColor: color.secondary,
+  start: { x: 0, y: 0 },
+  end: { x: 1, y: 1 },
+  locations: [0.1, 0.9],
+  opacity: 0.8,
+  color: color.white
 }

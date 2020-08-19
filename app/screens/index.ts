@@ -1,2 +1,5 @@
-export * from "./welcome-screen/welcome-screen"
-export * from "./demo-screen/demo-screen"
+export * from "./Welcome-screen"
+export * from "./Test-screen"
+export * from "./Login-screen"
+export * from "./Scan-screen"
+export * from "./Browse-screen"

@@ -1,28 +1,118 @@
-import * as React from "react"
-import { Text as ReactNativeText } from "react-native"
-import { presets } from "./text.presets"
-import { TextProps } from "./text.props"
-import { translate } from "../../i18n"
-import { mergeAll, flatten } from "ramda"
+import React, { FunctionComponent as Component } from "react"
+import { Text } from "react-native"
+import { textStyles as styles } from "./Text.styles"
 
-/**
- * For your text displaying needs.
- *
- * This component is a HOC over the built-in React Native one.
- */
-export function Text(props: TextProps) {
-  // grab the props
-  const { preset = "default", tx, txOptions, text, children, style: styleOverride, ...rest } = props
+export interface TextProps {
+  h1?,
+  h2?,
+  h3?,
+  title?,
+  body?,
+  caption?,
+  small?,
+  size?,
+  transform?,
+  align?,
+  // styling
+  regular?,
+  bold?,
+  semibold?,
+  medium?,
+  weight?,
+  light?,
+  center?,
+  right?,
+  spacing?, // letter-spacing
+  height?, // line-height
+  // colors
+  color?,
+  accent?,
+  primary?,
+  secondary?,
+  tertiary?,
+  black?,
+  white?,
+  gray?,
+  gray2?,
+  style?,
+  children?,
+}
 
-  // figure out which content to use
-  const i18nText = tx && translate(tx, txOptions)
-  const content = i18nText || text || children
+export const Typography: Component<TextProps> = props => {
+  const {
+    h1,
+    h2,
+    h3,
+    title,
+    body,
+    caption,
+    small,
+    size,
+    transform,
+    align,
+    // styling
+    regular,
+    bold,
+    semibold,
+    medium,
+    weight,
+    light,
+    center,
+    right,
+    spacing, // letter-spacing
+    height, // line-height
+    // colors
+    color,
+    accent,
+    primary,
+    secondary,
+    tertiary,
+    black,
+    white,
+    gray,
+    gray2,
+    style,
+    children,
+  } = props
 
-  const style = mergeAll(flatten([presets[preset] || presets.default, styleOverride]))
+  const textStyles = [
+    styles.text,
+    h1 && styles.h1,
+    h2 && styles.h2,
+    h3 && styles.h3,
+    title && styles.title,
+    body && styles.body,
+    caption && styles.caption,
+    size && { fontSize: size },
+    transform && { textTransform: transform },
+    align && { textAlign: align },
+    height && { lineHeight: height },
+    spacing && { letterSpacing: spacing },
+    weight && { fontWeight: weight },
+    regular && styles.regular,
+    bold && styles.bold,
+    semibold && styles.semibold,
+    medium && styles.medium,
+    light && styles.light,
+    center && styles.center,
+    right && styles.right,
+    color && styles[color],
+    color && !styles[color] && { color },
+    // color shortcuts
+    accent && styles.accent,
+    primary && styles.primary,
+    secondary && styles.secondary,
+    tertiary && styles.tertiary,
+    black && styles.black,
+    white && styles.white,
+    gray && styles.gray,
+    gray2 && styles.gray2,
+    style // rewrite predefined styles
+  ]
 
   return (
-    <ReactNativeText {...rest} style={style}>
-      {content}
-    </ReactNativeText>
+    <Text style={textStyles} {...props}>
+     {children}
+    </Text>
   )
 }
