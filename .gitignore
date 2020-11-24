@@ -38,7 +38,7 @@ yarn-error.log
 # BUCK
 buck-out/
 \.buckd/
-*.keystore
+# *.keystore
 !debug.keystore
 
 # fastlane
@@ -68,3 +68,8 @@ buck-out/
 # Configurations
 app/config/env.*.js
 !env.js
+
+# react-native-config codegen
+ios/tmp.xcconfig
+
+.history

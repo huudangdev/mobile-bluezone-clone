@@ -1,7 +1,0 @@
-require("../app/components/Badge/Badge.story")
-require("../app/components/Progress/Progress.story")
-require("../app/components/Card/Card.story")
-require("../app/components/Input/Input.story")
-require("../app/components/Text/Text.story")
-require("../app/components/Button/Button.story")
-require("../app/components/Block/Block.story")

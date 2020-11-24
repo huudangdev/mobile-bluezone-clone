@@ -1,22 +1,22 @@
 import React, { FunctionComponent as Component } from "react"
 import { TouchableOpacity } from "react-native"
 // import {LinearGradient} from 'expo-linear-gradient'
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient from "react-native-linear-gradient"
 import { buttonStyles as styles } from "./Button.styles"
 import { color } from "../../theme"
 
 export interface ButtonProps {
-  style?,
-  opacity?,
-  gradient?,
-  color?,
-  startColor?,
-  endColor?,
-  end?,
-  start?,
-  locations?,
-  shadow?,
-  children?,
+  style?
+  opacity?
+  gradient?
+  color?
+  startColor?
+  endColor?
+  end?
+  start?
+  locations?
+  shadow?
+  children?
   onPress?
 }
 
@@ -40,16 +40,12 @@ export const Button: Component<ButtonProps> = props => {
     shadow && styles.shadow,
     color && styles[color], // predefined styles colors for backgroundColor
     color && !styles[color] && { backgroundColor: color }, // custom backgroundColor
-    style
+    style,
   ]
 
   if (gradient) {
     return (
-      <TouchableOpacity
-        style={buttonStyles}
-        activeOpacity={opacity}
-        {...props}
-      >
+      <TouchableOpacity style={buttonStyles} activeOpacity={opacity} {...props}>
         <LinearGradient
           start={start}
           end={end}
@@ -63,11 +59,7 @@ export const Button: Component<ButtonProps> = props => {
     )
   } else {
     return (
-      <TouchableOpacity
-        style={buttonStyles}
-        activeOpacity={opacity || 0.8}
-        {...props}
-      >
+      <TouchableOpacity style={buttonStyles} activeOpacity={opacity || 0.8} {...props}>
         {children}
       </TouchableOpacity>
     )
@@ -81,5 +73,5 @@ Button.defaultProps = {
   end: { x: 1, y: 1 },
   locations: [0.1, 0.9],
   opacity: 0.8,
-  color: color.white
+  color: color.white,
 }
